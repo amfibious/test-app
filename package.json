@@ -1,0 +1,29 @@
+{
+  "name": "test-app",
+  "version": "1.0.0",
+  "description": "An application for a digital test",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amfibious/test-app.git"
+  },
+  "keywords": [
+    "test",
+    "exam"
+  ],
+  "author": "Sunrise Ezekikwu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amfibious/test-app/issues"
+  },
+  "homepage": "https://github.com/amfibious/test-app#readme",
+  "dependencies": {
+    "config": "^2.0.1",
+    "express": "^4.16.3",
+    "joi": "^13.6.0",
+    "mongoose": "^5.2.12"
+  }
+}
