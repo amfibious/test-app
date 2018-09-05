@@ -5,17 +5,13 @@ const testSchema = new mongoose.Schema({
     name: String,
     date: { type: Date, default: Date.now },
     duration: { type: Number, default: function(){ return this.noOfQuestions * 60 } },
-    noOfQuestions: { type: Number, default: 5 },
-    questions: { 
-                    type: [ mongoose.Schema.Types.ObjectId ],
-                    ref: 'Question',
-                    validate:{
-                        validator: function(q) { return q.length == this.noOfQuestions}
-                    }
-                },
+    questions: [ { type: mongoose.Schema.Types.ObjectId, ref: 'Question' } ],
     passMark: { type: Number, default: 0 },
     isNegMark: { type: Boolean, default: false }
 });
+testSchema.virtual('noOfQuestions').get(function(){
+    return this.questions.length;
+})
 
 const Test = mongoose.model('Test', testSchema);
 
