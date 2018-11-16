@@ -1,7 +1,7 @@
 {
-  "name": "test-app",
+  "name": "testify",
   "version": "1.0.0",
-  "description": "An application for a digital test",
+  "description": "A digital platform for testing candidates on user-defined tests",
   "main": "index.js",
   "scripts": {
     "test": "npm test"
@@ -21,9 +21,19 @@
   },
   "homepage": "https://github.com/amfibious/test-app#readme",
   "dependencies": {
+    "bcrypt": "^3.0.0",
     "config": "^2.0.1",
+    "cors": "^2.8.4",
     "express": "^4.16.3",
+    "jest": "^23.6.0",
     "joi": "^13.6.0",
-    "mongoose": "^5.2.12"
+    "joi-objectid": "^2.0.0",
+    "jsonwebtoken": "^8.3.0",
+    "lodash": "^4.17.10",
+    "mongoose": "^5.2.12",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "swagger-ui-express": "^4.0.1",
+    "winston": "^3.1.0"
   }
 }

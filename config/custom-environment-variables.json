@@ -1,3 +1,4 @@
 {
-    "password": "testApp_password"
+    "password": "testify_password",
+    "secret": "testify_secret"
 }

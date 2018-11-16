@@ -5,41 +5,55 @@ const express = require('express');
 const Test = require('../models/test')
 const router = express.Router();
 
-//GET: /api/tests/
-router.get('/', async (req, res) => {
+//GET: /api/tests/getTests
+router.get('/getTests', async (req, res) => {
     await Test.find((err, doc) => {
         if (err) return res.status(500).send(err);
         res.send(doc);
     })
+    .sort('-date');
 });
 
-//GET: /api/tests/get/:id
-router.get('/get/:id', async (req, res) => {
+//GET: /api/tests/getTestsAsync
+router.get('/getTestsAsync', async (req, res) => {
+    await Test.find((err, doc) => {
+        if (err) return res.status(500).send(err);
+        res.send(doc);
+    })
+    .populate('questions')
+    .sort('-date');
+});
+
+//GET: /api/tests/getTest/:id
+router.get('/getTest/:id', async (req, res) => {
     await Test.findById(mongoose.Types.ObjectId(req.params.id), (err, doc) => {
         if (err) res.status(500).send(err);
         res.send(doc); 
     });
 });
 
-//GET: /api/tests/:id
-router.get('/:id', async (req, res) => {
-    await Test.findById(mongoose.Types.ObjectId(req.params.id), (err, doc) => {
-        if (err) res.status(500).send(err);
-        res.send(doc); 
-    }).populate('questions');
+//GET: /api/tests/getTestById/:id
+router.get('/getTestById/:id', async (req, res) => {
+    await Test.findById(mongoose.Types.ObjectId(req.params.id))
+        .populate('questions')
+        .exec(function (err, doc) {
+            if (err) res.status(500).send(err);
+            res.send(doc);
+        });
 });
 
-//GET: /api/tests/:id/answers
-router.get('/:id/answer', async (req, res) => {
-    await Test.findById(mongoose.Types.ObjectId(req.params.id), (err, doc) => {
-        if (err) res.status(500).send(err);
-        res.send(doc.questions.find(o => o.isAnswer)); 
-    });
-});
+// //GET: /api/tests/:id/answers
+// router.get('/:id/answer', async (req, res) => {
+//     await Test.findById(mongoose.Types.ObjectId(req.params.id), (err, doc) => {
+//         if (err) res.status(500).send(err);
+//         res.send(doc.questions.find(o => o.isAnswer)); 
+//     });
+// });
 
-//POST: /api/tests
-router.post('/', async (req, res) => {
+//POST: /api/tests/createTest
+router.post('/createTest', async (req, res) => {
     const test = new Test(req.body);
+    // test.user = req.user._id;
 
     try {
         await test.save();
@@ -50,20 +64,8 @@ router.post('/', async (req, res) => {
     }
 });
 
-// Using the Fawn package for transactions
-// try{
-//     new Fawn.Task()
-//         .save('tests', test)
-//         .update('questions', {_id: question.id}, {
-//             $inc: { number: -1 }
-//         })
-//         .remove('test-entries', { _id: testEntry.id })
-// } catch(ex){
-
-// }
-
-//PUT: /api/tests/:id
-router.put('/:id', async (req, res) => {
+//PUT: /api/tests/updateTest/:id
+router.put('/updateTest/:id', async (req, res) => {
     await Test.findById(mongoose.Types.ObjectId(req.params.id), (err, doc) => {
         if (err) res.status(500).send(err);
         doc.set(req.body);
@@ -72,8 +74,8 @@ router.put('/:id', async (req, res) => {
     });
 });
 
-//DELETE: /api/tests/:id
-router.delete('/:id', async (req, res) => {
+//DELETE: /api/tests/deleteTest/:id
+router.delete('/deleteTest/:id', async (req, res) => {
     await Test.findByIdAndRemove(mongoose.Types.ObjectId(req.params.id), (err, doc) => {
         if (err) res.status(500).send(err);
         res.send(doc); 

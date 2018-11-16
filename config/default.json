@@ -1,4 +1,6 @@
 {
-    "name": "TestApp",
-    "description": "An application for an online test"
+    "name": "Testify",
+    "description": "A digital testing platform",
+    "remote-client-base-url": "http://localhost:4200",
+    "testify_secret": ""
 }

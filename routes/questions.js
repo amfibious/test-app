@@ -1,35 +1,46 @@
 
 const { Question, validateQuestion } = require('../models/question');
 const express = require('express');
+const {auth, roles} = require('../middlewares/auth');
 const mongoose = require('mongoose');
 const router = express.Router();
 
-//GET: /api/questions/
-router.get('/', async (req, res) => {
+// router.use([ auth, roles(['admin', 'user']) ]);
+
+//GET: /api/questions/getQuestions
+router.get('/getQuestions', async (req, res) => {
     await Question.find((err, doc) => {
         if (err) return res.status(500).send(err);
         res.send(doc);
-    })
+    }).select('-options.isAnswer').sort('number')
 });
 
-//GET: /api/questions/:id
-router.get('/:id', async (req, res) => {
+//GET: /api/questions/getQuestions/testId
+router.get('/getQuestions/:testId', async (req, res) => {
+    await Question.find({test: mongoose.Types.ObjectId(req.params.testId)}, (err, doc) => {
+        if (err) return res.status(500).send(err);
+        res.send(doc);
+    }).select('-options.isAnswer').sort('number')
+});
+
+//GET: /api/questions/getQuestionById/:id
+router.get('/getQuestionById/:id', async (req, res) => {
     await Question.findById(mongoose.Types.ObjectId(req.params.id), (err, doc) => {
         if (err) res.status(500).send(err);
         res.send(doc);
-    });
+    }).select('-options.isAnswer');
 });
 
-//GET: /api/questions/:id/answer
-router.get('/:id/answer', async (req, res) => {
+//GET: /api/questions/getByIdWithAnswer/:id
+router.get('/getByIdWithAnswer/:id', async (req, res) => {
     await Question.findById(mongoose.Types.ObjectId(req.params.id), (err, doc) => {
         if (err) res.status(500).send(err);
-        res.send(doc.options.find(o => o.isAnswer)); 
+        res.send(doc); 
     });
 });
 
-//POST: /api/questions
-router.post('/', async (req, res) => {
+//POST: /api/questions/createQuestion
+router.post('/createQuestion', async (req, res) => {
     const question = new Question(req.body);
     try {
         await question.save();
@@ -40,8 +51,8 @@ router.post('/', async (req, res) => {
     }
 })
 
-//PUT: /api/questions/:id
-router.put('/:id', async (req, res) => {
+//PUT: /api/questions/updateQuestion/:id
+router.put('/updateQuestion/:id', async (req, res) => {
     await Question.findById(mongoose.Types.ObjectId(req.params.id), (err, doc) => {
         if (err) res.status(500).send(err);
         doc.set(req.body);
@@ -50,8 +61,8 @@ router.put('/:id', async (req, res) => {
     });
 });
 
-//DELETE: /api/questions/:id
-router.delete('/:id', async (req, res) => {
+//DELETE: /api/questions/deleteQuestion/:id
+router.delete('deleteQuestion/:id', async (req, res) => {
     await Question.findByIdAndRemove(mongoose.Types.ObjectId(req.params.id), (err, doc) => {
         if (err) res.status(500).send(err);
         res.send(doc); 
