@@ -6,7 +6,7 @@ const mongoose = require('mongoose'),
     config = require('config')
 
 const app = express();
-const isProduction = app.get('env') === 'production';
+const isProduction = process.env.NODE_ENV === 'production';
 //------------------------------------------------------------
 
 if(!config.secret){
@@ -15,7 +15,7 @@ if(!config.secret){
 }
 
 if(isProduction){
-  mongoose.connect(config.get('mongoDbConnectionString'), { useNewUrlParser: true })
+  mongoose.connect(config.mongoDbConnectionString, { useNewUrlParser: true })
       .then(() => console.log('Connected to MongoDB.'))
       .catch(err => new Error('A connection error has occured'));    
 }
