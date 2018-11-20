@@ -1,4 +1,5 @@
 {
     "password": "testify_password",
-    "secret": "testify_secret"
+    "secret": "testify_secret",
+    "mongoDbConnectionString": "testify_mdbcs"
 }

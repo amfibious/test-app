@@ -15,7 +15,7 @@ if(!config.secret){
 }
 
 if(isProduction){
-  mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true })
+  mongoose.connect(config.get('mongoDbConnectionString'), { useNewUrlParser: true })
       .then(() => console.log('Connected to MongoDB.'))
       .catch(err => new Error('A connection error has occured'));    
 }
