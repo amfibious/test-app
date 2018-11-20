@@ -1,5 +1,5 @@
 
-const { Question, validateQuestion } = require('../models/question');
+const { Question, validate } = require('../models/question');
 const express = require('express');
 const {auth, roles} = require('../middlewares/auth');
 const mongoose = require('mongoose');

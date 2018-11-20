@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const config = require('config');
-const Joi = require('Joi');
+const Joi = require('joi');
 const { Role } = require('./setup/role');
 
  const candidateSchema = new mongoose.Schema({

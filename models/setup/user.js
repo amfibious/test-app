@@ -1,5 +1,5 @@
 
-const Joi = require('Joi');
+const Joi = require('joi');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const config = require('config');

@@ -65,10 +65,10 @@ const questionSchema = new mongoose.Schema(
 const Option = mongoose.model('Option', optionSchema);
 const Question = mongoose.model('Question', questionSchema);
 
-function validateQuestion(){
+function validate(){
     return Joi.validate(Question, {
         number: Joi.required().number()
     });
 }
 
-module.exports = { Question, validateQuestion }
+module.exports = { Question, validate }
