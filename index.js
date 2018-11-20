@@ -6,7 +6,7 @@ const mongoose = require('mongoose'),
     config = require('config')
 
 const app = express();
-const isProduction = process.env.NODE_ENV === 'production';
+const isProduction = app.get('env') === 'production';
 //------------------------------------------------------------
 
 if(!config.secret){
