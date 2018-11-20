@@ -1,16 +1,16 @@
 
-const cors = require('./middlewares/cors'),
+const cors = require('./cors'),
     bodyParser = require('body-parser'),
     express = require('express'),
     passport = require('passport'),
     helmet = require('helmet'),
     compression = require('compression'),
     // session = require('express-session'),
-    root = require('./routes/root');
-    
-const isProduction = app.get('env') === 'production';
+    root = require('../routes/root');
 
 module.exports = function(app){
+    const isProduction = app.get('env') === 'production';
+    
       //------------------------------------------------------------------------------
       /* Middlewares */
 

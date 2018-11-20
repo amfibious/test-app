@@ -2,8 +2,8 @@ const Joi = require('joi');
 Joi.objectId = require('joi-objectid')(Joi);
 
 const mongoose = require('mongoose'),
-    config = require('config'),
-    handlers = require('./handlers')
+    express = require('express'),
+    config = require('config')
 
 const app = express();
 const isProduction = app.get('env') === 'production';
@@ -13,7 +13,7 @@ if(!config.secret){
   console.log('Fatal Error!');
   process.exit(1);
 }
-  
+
 if(isProduction){
   mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true })
       .then(() => console.log('Connected to MongoDB.'))
