@@ -45,7 +45,7 @@ const questionSchema = new mongoose.Schema(
                 validator: function(ops){ 
                     return ops.filter(o => o.isAnswer).length === 1;
                 },
-                message: 'Question must have one and only one option as amswer.'
+                message: 'Question must have one and only one option as answer.'
             }]
         },
         difficulty: { type: Number, required: true, default: 3, min: 1, max: 5 },

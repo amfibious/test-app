@@ -5,7 +5,7 @@ const testSchema = new mongoose.Schema(
     {
         title: String,
         date: { type: Date },
-        duration: { type: Number, default: function(){ return this.noOfQuestions * 60 } }, // in minutes
+        duration: { type: Number, min: 0, default: function(){ return this.noOfQuestions } }, // in minutes
         questions: [ { type: mongoose.Schema.Types.ObjectId, ref: 'Question' } ],
         passMark: { type: Number, default: 0 },
         isNegMark: { type: Boolean, default: false },
@@ -19,7 +19,7 @@ const testSchema = new mongoose.Schema(
     });
 
 testSchema.virtual('numberOfQuestions').get(function(){
-    return this.questions.length;
+    return this.questions ? this.questions.length : 0;
 })
 
 const Test = mongoose.model('Test', testSchema);

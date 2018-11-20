@@ -13,7 +13,7 @@ const router = express.Router();
 //=============================================
 
 //GET: /api/roles/
-router.get('/getRoles', async (req, res) => {
+router.get('/getRoles', auth, roles(['admin']), async (req, res) => {
     await Role.find((err, doc) => {
         if (err) return res.status(500).send(err);
         console.log(doc)
@@ -22,7 +22,7 @@ router.get('/getRoles', async (req, res) => {
 });
 
 //GET: /api/roles/:id
-router.get('/getRoleById/:id', async (req, res) => {
+router.get('/getRoleById/:id', auth, roles(['admin']), async (req, res) => {
     await Role.findById(mongoose.Types.ObjectId(req.params.id), (err, doc) => {
         if (err) res.status(500).send(err);
         res.send(doc); 
@@ -30,7 +30,7 @@ router.get('/getRoleById/:id', async (req, res) => {
 });
 
 //POST: /api/roles
-router.post('/createRole', async (req, res) => {
+router.post('/createRole', auth, roles(['admin']), async (req, res) => {
     const role = new Role(req.body);
 
     try {
@@ -43,7 +43,7 @@ router.post('/createRole', async (req, res) => {
 });
 
 //PUT: /api/roles/:id
-router.put('updateRole/:id', async (req, res) => {
+router.put('updateRole/:id', auth, roles(['admin']), async (req, res) => {
     await Role.findById(mongoose.Types.ObjectId(req.params.id), (err, doc) => {
         if (err) res.status(500).send(err);
         doc.set(req.body);
@@ -53,7 +53,7 @@ router.put('updateRole/:id', async (req, res) => {
 });
 
 //DELETE: /api/roles/:id
-router.delete('deleteRole/:id', async (req, res) => {
+router.delete('deleteRole/:id', auth, roles(['admin']), async (req, res) => {
     await Role.findByIdAndRemove(mongoose.Types.ObjectId(req.params.id), (err, doc) => {
         if (err) res.status(500).send(err);
         res.send(doc); 

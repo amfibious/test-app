@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const config = require('config');
 const { Role } = require('./role');
+const { VerificationToken } = require('./token');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
@@ -33,12 +34,24 @@ userSchema.methods.setRoles = async function(roleName, callback){
     })
 }
 
-userSchema.methods.generateAuthToken = function(){           
-    const token = jwt.sign({ _id: this._id, email: this.email, roles: this.roles, isActive: this.isActive }, config.secret);
-    return token;
+userSchema.methods.generateAuthToken = async function(callback){ 
+    await Role.findById(mongoose.Types.ObjectId(this.roles[0]), (err, role) => {
+        if(err || !role) return callback(null);
+        const token = jwt.sign({ _id: this._id, name: this.name, email: this.email, roles: [role.name], isActive: this.isActive }, config.secret);
+        callback(token);
+    });
 }
 
-userSchema.methods.validPassword = function(password) {
+userSchema.methods.sendVerificationToken = async function(roleName, callback){
+    var verificationToken = new VerificationToken({ user: this.user, token: crypto.randomBytes(16).toString('hex')})
+    await verificationToken.save(err => {
+        
+        //Send mail
+        // var transporter = nodemailer
+    })
+}
+
+userSchema.methods.validatePassword = function(password) {
     var hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex');
     return this.hash === hash;
   };
@@ -68,12 +81,13 @@ userSchema.methods.validPassword = function(password) {
   
 const User = mongoose.model('User', userSchema);
 
-function validateUser(user){
+function validate(user){
     const schema = {
+        name: Joi.string().min(5).max(64).required(),
         email: Joi.string().min(5).max(64).required(),
-        password: Joi.string().min(3).max(64).required()
+        password: Joi.string().min(3).max(32).required()
     }
     return Joi.validate(user, schema);
 }
 
-module.exports = { User, validateUser };
+module.exports = { User, validate };

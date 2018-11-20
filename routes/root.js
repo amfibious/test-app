@@ -16,10 +16,10 @@ router.use('/api/account/', account);
 router.use('/api/setup/logins', logins);
 router.use('/api/users', users);
 router.use('/api/roles', roles);
-router.use('/api/candidates/', candidates);
+router.use('/api/candidates', candidates);
 
 router.use('/api/tests', tests);
-router.use('/api/test-entries', testEntries);
+router.use('/api/testEntries', testEntries);
 router.use('/api/questions', questions);
 //
 router.get('/', (req, res) => {

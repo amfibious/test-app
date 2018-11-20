@@ -19,19 +19,22 @@ answerSchema.virtual('correct').get(function(){
 })
 //-----------------------------------------------------------------
 const testEntrySchema = new mongoose.Schema({
-    candidate: { type: mongoose.SchemaTypes.ObjectId, ref: 'Candidate' },
-    refNumber: { type: Number },
+    candidate: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Candidate' },
+    refNumber: { type: String, required: true, default: Date.now().toString() },
     answers: { type: [ answerSchema ], default: [],
-        validate: {
-            validator: function(a){ return a.length <= this.test.noOfQuestions },
-            message: 'You submitted more answers than there are questions'
-        }
+        // validate: {
+        //     validator: function(a){ return a.length <= this.test.noOfQuestions },
+        //     message: 'You submitted more answers than there are questions'
+        // }
     },
-    test: { type: mongoose.Schema.Types.ObjectId, ref: 'Test'},
+    test: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Test'},
     // score: { type: Number, min: 0, max: function(){ return this.noOfQuestions }, default: 0 },
     submitted: Boolean
 }, 
-{ timestamps: true });
+{ 
+    toObject: { virtuals: true },
+    toJSON: { virtuals: true },
+    timestamps: true });
 
 testEntrySchema.virtual('timeExpired').get(function(){
     return (this.createdAt.value + (this.test.duration * 60 * 1000) ) >= Date.now();
