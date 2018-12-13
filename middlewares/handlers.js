@@ -2,7 +2,6 @@
 const cors = require('./cors'),
     bodyParser = require('body-parser'),
     express = require('express'),
-    passport = require('passport'),
     helmet = require('helmet'),
     compression = require('compression'),
     // session = require('express-session'),

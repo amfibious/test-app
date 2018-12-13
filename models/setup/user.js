@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema(
 
 userSchema.methods.setRoles = async function(roleName, callback){
     await Role.findOne({ name: roleName }, (err, role) => {
-        if(role) callback([role._id]);
+        callback([role._id]);
     })
 }
 

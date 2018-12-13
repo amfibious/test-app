@@ -6,7 +6,6 @@ const { User, validate } = require('../../models/setup/user'),
     Joi = require('joi'),
     mongoose = require('mongoose'),
     express = require('express'),
-    passport = require('passport'),
     bcrypt = require('bcrypt'),
     router = express.Router();
     const _ = require('lodash');
@@ -25,14 +24,12 @@ router.post('/register', async (req, res) => {
             user.roles = result;
 
             try {
-                user.save( err => {
-                    if (err) return res.status(500).send("An unexpected error occured");
-                    user.sendVerificationToken();
-                });
+                user.save();
                 res.status(201).send(_.pick(user,['name', 'email', 'roles']));
             } catch (ex) {
                 console.log(ex.errors);
-                return res.status(500).send(ex);
+                user.sendVerificationToken();
+                return res.status(500).send("An unexpected error occured");
             }
         });
     });
