@@ -1,3 +1,5 @@
 {
-    "name": "Test App"
+    "name": "Testify",
+    "description": "A digital testing platform",
+    "clientBaseUrl": "testify_client_url"
 }

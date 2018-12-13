@@ -15,9 +15,8 @@ const { Role } = require('./setup/role');
     email: { type: String, required: true },
     phoneNumber: { type: String, required: true },
     address: { type: String, required: true },
-    // user: { type: mongoose.SchemaTypes.ObjectId, ref: 'User', required: true },
     test: { type: mongoose.SchemaTypes.ObjectId, ref: 'Test', required: true },
-    photo: { type: Array, required: true },
+    // photo: { type: Array, required: true },
     roles: [{ 
         type: mongoose.Schema.Types.ObjectId, ref: 'Role'
     }]
@@ -50,11 +49,17 @@ const Candidate = mongoose.model('Candidate', candidateSchema);
 
 function validate(candidate){
     const schema = {
+        test: Joi.string().required(),
         username: Joi.string().min(5).max(64).required(),
         password: Joi.string().min(3).max(32).required(),
+        regNumber: Joi.string().max(64),
         firstName: Joi.string().required(),
+        middleName: Joi.string().max(64),
         lastName: Joi.string().required(),
-        test: Joi.string().required()
+        email: Joi.string().min(5).max(64).required(),
+        phoneNumber: Joi.string().min(5).max(64),
+        address: Joi.string().min(5).max(64),
+        roles: Joi.array()
     }
     return Joi.validate(candidate, schema);
 }

@@ -1,5 +1,5 @@
 {
     "name": "TestAppDev",
     "description": "An application for an online test",
-    "remote-client-base-url": "http://localhost:4200"
+    "clientBaseUrl": "http://localhost:4200"
 }

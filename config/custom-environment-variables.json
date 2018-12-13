@@ -1,5 +1,6 @@
 {
     "password": "testify_password",
     "secret": "testify_secret",
-    "mongoDbConnectionString": "testify_mdbcs"
+    "mongoDbConnectionString": "testify_mdbcs",
+    "clientBaseUrl": "testify_client_url"
 }

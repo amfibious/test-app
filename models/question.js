@@ -65,8 +65,8 @@ const questionSchema = new mongoose.Schema(
 const Option = mongoose.model('Option', optionSchema);
 const Question = mongoose.model('Question', questionSchema);
 
-function validate(){
-    return Joi.validate(Question, {
+function validate(question){
+    return Joi.validate(question, {
         number: Joi.required().number()
     });
 }

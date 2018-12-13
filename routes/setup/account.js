@@ -21,7 +21,7 @@ router.post('/register', async (req, res) => {
     await bcrypt.hash(user.password, salt, (err, encrypted) => {
         user.password = encrypted;
         user.setRoles('user', result => {
-            if(!result.length) return res.status(500).send("Default role not found!");
+            if(!(result || result.length)) return res.status(500).send("Default role not found!");
             user.roles = result;
 
             try {
