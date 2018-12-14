@@ -25,7 +25,7 @@ router.post('/register', async (req, res) => {
 
             user.save( err => {
                 if (err) return res.status(500).send("An unexpected error occured, email might have been taken");
-                user.sendVerificationToken();
+                // user.sendVerificationToken();
                 res.status(201).send(_.pick(user,['name', 'email', 'roles']));
             });
         });
