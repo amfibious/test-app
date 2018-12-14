@@ -23,14 +23,11 @@ router.post('/register', async (req, res) => {
             if(!(result || result.length)) return res.status(500).send("Default role not found!");
             user.roles = result;
 
-            try {
-                user.save();
-                res.status(201).send(_.pick(user,['name', 'email', 'roles']));
-            } catch (ex) {
-                console.log(ex.errors);
+            user.save( err => {
+                if (err) return res.status(500).send("An unexpected error occured, email might have been taken");
                 user.sendVerificationToken();
-                return res.status(500).send("An unexpected error occured");
-            }
+                res.status(201).send(_.pick(user,['name', 'email', 'roles']));
+            });
         });
     });
 });
